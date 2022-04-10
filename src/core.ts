@@ -61,28 +61,48 @@ export class Core {
       (test) => test.pair.label,
     );
 
+    const { bitmaps_reference, bitmaps_test, html_report, json_report } = this.options.config.paths;
+
+    const toReferenceDir = join(html_report, 'bitmaps_reference');
+    const toTestDir = join(html_report, 'bitmaps_test');
+
+    // 前回の backstop 実行時の残骸が紛れ込まないよう、念の為一度作り直す
+    await rm(toReferenceDir, { recursive: true, force: true });
+    await rm(toTestDir, { recursive: true, force: true });
+
     // Move the reference image to html_report directory.
     // This way, the html_report directory becomes standalone.
     for (const test of tests) {
-      const fromReference = join(this.options.config.paths.json_report, test.pair.reference);
-      const toReference = join(this.options.config.paths.html_report, 'bitmaps_reference', basename(fromReference));
-      const fromTest = join(this.options.config.paths.json_report, test.pair.test);
-      const toTest = join(this.options.config.paths.html_report, 'bitmaps_test', basename(fromTest));
+      const fromReference = join(json_report, test.pair.reference);
+      const toReference = join(toReferenceDir, relative(bitmaps_reference, fromReference));
+      const fromTest = join(json_report, test.pair.test);
+      const toTest = join(toTestDir, relative(bitmaps_test, fromReference));
 
-      const toReferenceDir = dirname(toReference);
-      const toTestDir = dirname(toTest);
-
-      // 前回の backstop 実行時の残骸が紛れ込まないよう、念の為一度作り直す
-      await rm(toReferenceDir, { recursive: true, force: true });
-      await rm(toTestDir, { recursive: true, force: true });
       await mkdir(toReferenceDir, { recursive: true });
       await mkdir(toTestDir, { recursive: true });
 
       // コピーしてくる
       await copyFile(fromReference, toReference);
       await copyFile(fromTest, toTest);
-      test.pair.reference = relative(this.options.config.paths.html_report, toReference);
-      test.pair.test = relative(this.options.config.paths.html_report, toTest);
+      test.pair.reference = relative(html_report, toReference);
+      test.pair.test = relative(html_report, toTest);
+
+      if (test.pair.diffImage) {
+        const fromDiffImage = join(json_report, test.pair.diffImage);
+        const toDiffImage = join(toTestDir, relative(bitmaps_test, fromDiffImage));
+        await mkdir(dirname(toDiffImage), { recursive: true });
+        await copyFile(fromDiffImage, toDiffImage);
+        test.pair.diffImage = relative(html_report, toDiffImage);
+
+        console.log({
+          fromReference,
+          toReference,
+          fromTest,
+          toTest,
+          fromDiffImage,
+          toDiffImage,
+        });
+      }
     }
 
     // Create `config.js` of browser report

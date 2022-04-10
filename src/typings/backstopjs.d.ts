@@ -24,6 +24,7 @@ declare module 'backstopjs' {
       expect: number;
       viewportLabel: string;
       error: string;
+      diffImage?: string;
     };
     status: 'pass' | 'fail';
   }
