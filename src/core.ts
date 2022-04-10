@@ -1,6 +1,6 @@
 import backstop, { JSONReport } from 'backstopjs';
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { basename, join, relative } from 'node:path';
+import { copyFile, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { basename, dirname, join, relative } from 'node:path';
 import { uniqueBy } from './array';
 import { NormalizedConfig, readConfig } from './config';
 import { Options } from './parse-argv';
@@ -68,9 +68,17 @@ export class Core {
       const toReference = join(this.options.config.paths.html_report, 'bitmaps_reference', basename(fromReference));
       const fromTest = join(this.options.config.paths.json_report, test.pair.test);
       const toTest = join(this.options.config.paths.html_report, 'bitmaps_test', basename(fromTest));
-      console.log({ fromReference, toReference, fromTest, toTest });
-      await mkdir(join(this.options.config.paths.html_report, 'bitmaps_reference'), { recursive: true });
-      await mkdir(join(this.options.config.paths.html_report, 'bitmaps_test'), { recursive: true });
+
+      const toReferenceDir = dirname(toReference);
+      const toTestDir = dirname(toTest);
+
+      // 前回の backstop 実行時の残骸が紛れ込まないよう、念の為一度作り直す
+      await rm(toReferenceDir, { recursive: true, force: true });
+      await rm(toTestDir, { recursive: true, force: true });
+      await mkdir(toReferenceDir, { recursive: true });
+      await mkdir(toTestDir, { recursive: true });
+
+      // コピーしてくる
       await copyFile(fromReference, toReference);
       await copyFile(fromTest, toTest);
       test.pair.reference = relative(this.options.config.paths.html_report, toReference);
