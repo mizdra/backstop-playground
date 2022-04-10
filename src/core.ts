@@ -1,6 +1,6 @@
 import backstop, { JSONReport } from 'backstopjs';
-import { copyFile, readFile, writeFile } from 'node:fs/promises';
-import { basename, join } from 'node:path';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { basename, join, relative } from 'node:path';
 import { uniqueBy } from './array';
 import { NormalizedConfig, readConfig } from './config';
 import { Options } from './parse-argv';
@@ -64,14 +64,17 @@ export class Core {
     // Move the reference image to html_report directory.
     // This way, the html_report directory becomes standalone.
     for (const test of tests) {
-      const fromReference = join(test.pair.reference);
+      const fromReference = join(this.options.config.paths.json_report, test.pair.reference);
       const toReference = join(this.options.config.paths.html_report, 'bitmaps_reference', basename(fromReference));
-      const fromTest = join(test.pair.test);
+      const fromTest = join(this.options.config.paths.json_report, test.pair.test);
       const toTest = join(this.options.config.paths.html_report, 'bitmaps_test', basename(fromTest));
+      console.log({ fromReference, toReference, fromTest, toTest });
+      await mkdir(join(this.options.config.paths.html_report, 'bitmaps_reference'), { recursive: true });
+      await mkdir(join(this.options.config.paths.html_report, 'bitmaps_test'), { recursive: true });
       await copyFile(fromReference, toReference);
       await copyFile(fromTest, toTest);
-      test.pair.reference = toReference;
-      test.pair.test = toTest;
+      test.pair.reference = relative(this.options.config.paths.html_report, toReference);
+      test.pair.test = relative(this.options.config.paths.html_report, toTest);
     }
 
     // Create `config.js` of browser report

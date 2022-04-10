@@ -1,5 +1,8 @@
 // @ts-check
 
+const { readdirSync } = require('fs');
+const { join, basename } = require('path');
+
 /**
  * @param {string} path
  * @returns {import('backstopjs').Scenario}
@@ -13,10 +16,21 @@ function createScenario(path) {
   };
 }
 
+/**
+ * @returns {import('backstopjs').Scenario[]}
+ */
+function createScenarios() {
+  const publicDir = join(__dirname, './public');
+  return readdirSync(publicDir).map((file) => {
+    const path = '/' + basename(file);
+    return createScenario(path);
+  });
+}
+
 /** @type {import('backstopjs').Config} */
 const config = {
   id: 'foo',
-  scenarios: [createScenario('/page-1.html'), createScenario('/page-2.html'), createScenario('/page-3.html')],
+  scenarios: createScenarios(),
   viewports: [
     {
       name: 'desktop',

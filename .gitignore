@@ -133,4 +133,6 @@ dist
 .pnp.*
 
 # User
-/demo/backstop_data
+/demo/backstop_data/bitmaps_test
+/demo/backstop_data/html_report
+/demo/backstop_data/json_report
