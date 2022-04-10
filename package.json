@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "http-server -p 8080 public",
-    "backstop": "script/backstop.ts"
+    "backstop": "./backstop.ts"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
   "prettier": "@mizdra/prettier-config-mizdra",
   "devDependencies": {
     "@mizdra/prettier-config-mizdra": "^1.0.0",
+    "@tsconfig/node16": "^1.0.2",
+    "@types/backstopjs": "^4.1.2",
     "@types/node": "^17.0.23",
     "backstopjs": "^6.0.4",
     "http-server": "^14.1.0",
