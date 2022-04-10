@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "http-server -p 8080 public",
-    "backstop": "backstop test"
+    "backstop": "../bin/eco-backstop"
   },
   "devDependencies": {
     "http-server": "^14.1.0"

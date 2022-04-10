@@ -1,6 +1,10 @@
-import { Config, Scenario } from 'backstopjs';
+// @ts-check
 
-function createScenario(path: string): Scenario {
+/**
+ * @param {string} path
+ * @returns {import('backstopjs').Scenario}
+ */
+function createScenario(path) {
   return {
     label: path,
     url: `http://localhost:8080${path}`,
@@ -9,7 +13,8 @@ function createScenario(path: string): Scenario {
   };
 }
 
-export const config: Config = {
+/** @type {import('backstopjs').Config} */
+const config = {
   id: 'foo',
   scenarios: [createScenario('/page-1.html'), createScenario('/page-2.html'), createScenario('/page-3.html')],
   viewports: [
@@ -31,3 +36,5 @@ export const config: Config = {
   },
   report: ['browser', 'json'],
 };
+
+module.exports = config;
