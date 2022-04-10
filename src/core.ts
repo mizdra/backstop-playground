@@ -2,9 +2,8 @@ import backstop, { JSONReport } from 'backstopjs';
 import { copyFile, readFile, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { uniqueBy } from './array';
-import { Options, Config as ConfigType } from './parse-argv';
-
-export const DEFAULT_CONFIG_PATH = 'backstop.json';
+import { NormalizedConfig, readConfig } from './config';
+import { Options } from './parse-argv';
 
 type NormalizedOptions = {
   config: NormalizedConfig;
@@ -12,32 +11,12 @@ type NormalizedOptions = {
   docker?: boolean;
 };
 
-type NormalizedConfig = Omit<ConfigType, 'paths' | 'report'> & {
-  paths: Required<NonNullable<ConfigType['paths']>>;
-  report: Required<NonNullable<ConfigType['report']>>;
-};
-
-function assertConfig(config: ConfigType): asserts config is NormalizedConfig {
-  if (config.id === undefined) throw new Error('config.id is required');
-  if (config.paths === undefined) throw new Error('config.paths is required');
-  if (config.paths.bitmaps_reference === undefined) throw new Error('config.paths.bitmaps_reference is required');
-  if (config.paths.bitmaps_test === undefined) throw new Error('config.paths.bitmaps_test is required');
-  if (config.paths.html_report === undefined) throw new Error('config.paths.html_report is required');
-  if (config.paths.json_report === undefined) throw new Error('config.paths.json_report is required');
-  if (config.report === undefined) throw new Error('config.report is required');
-  if (!config.report.includes('browser')) throw new Error('config.report must include "browser"');
-  if (!config.report.includes('CI')) throw new Error('config.report must include "CI"');
-}
-
 export class Core {
   options: NormalizedOptions;
   reports: JSONReport[];
   constructor(options: Options) {
-    const config: ConfigType =
-      typeof options.config === 'object' ? options.config : require(options.config ?? DEFAULT_CONFIG_PATH);
-    assertConfig(config);
     this.options = {
-      config,
+      config: readConfig(options.config),
       filter: options.filter,
       docker: options.docker,
     };
