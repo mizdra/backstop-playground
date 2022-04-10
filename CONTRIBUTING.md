@@ -13,7 +13,7 @@ $ npm run dev
 ````
 
 ```console
-$ # デモ環境で eco-friendly-backstopjs-runner を実行する
+$ # デモ環境で eco-backstopjs-runner を実行する
 $ cd demo
 $ npm run backstop
 ```

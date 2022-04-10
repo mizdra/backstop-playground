@@ -1,4 +1,4 @@
-# @mizdra/eco-friendly-backstopjs-runner
+# @mizdra/eco-backstopjs-runner
 
 実行時間が最小になるよう設計された Backstop.js カスタムランナーです。
 
@@ -35,7 +35,7 @@
 
 ### スタンドアロンで最小限なレポート
 
-`eco-friendly-backstopjs-runner` では、スタンドアロンで最小限なレポートが生成されます。具体的な特徴は以下の通りです。
+`eco-backstopjs-runner` では、スタンドアロンで最小限なレポートが生成されます。具体的な特徴は以下の通りです。
 
 - レポートディレクトリ (設定ファイルの `paths.html_report` で指定) の配下に、レポートの表示に必要なファイルが全て収められます
   - 本家 Backstop.js のレポートは、レポートの表示には `paths.bitmaps_reference` / `paths.bitmaps_test` ディレクトリが必要ですが、当該 runner では `paths.html_report` ディレクトリさえあれば表示できます
@@ -47,8 +47,8 @@
 ## Install
 
 ```console
-$ npm install -D @mizdra/eco-friendly-backstopjs-runner backstopjs
-$ yarn add -D @mizdra/eco-friendly-backstopjs-runner backstopjs
+$ npm install -D @mizdra/eco-backstopjs-runner backstopjs
+$ yarn add -D @mizdra/eco-backstopjs-runner backstopjs
 ```
 
 ## Usage
