@@ -34,11 +34,7 @@ export class Core {
         scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
       },
     }).catch((error) => {
-      if (error instanceof Error && error.message.startsWith('Mismatch errors found.')) {
-        // noop
-      } else {
-        throw error;
-      }
+      // TODO: ハンドリングする
     });
     const report = await this.readJSONReport();
     this.reports.push(report);
@@ -89,7 +85,7 @@ export class Core {
   }
 
   private async readJSONReport(): Promise<JSONReport> {
-    const jsonReport = await readFile(this.options.config.paths.json_report, 'utf8');
+    const jsonReport = await readFile(join(this.options.config.paths.json_report, 'jsonReport.json'), 'utf8');
     return JSON.parse(jsonReport);
   }
 }
