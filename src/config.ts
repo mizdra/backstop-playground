@@ -24,7 +24,6 @@ export function assertConfig(config: Config): asserts config is NormalizedConfig
 }
 
 export function readConfig(configObjOrPath: Options['config']): NormalizedConfig {
-  console.log(process.cwd());
   const config: Config =
     typeof configObjOrPath === 'object'
       ? configObjOrPath

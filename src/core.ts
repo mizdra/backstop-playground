@@ -104,15 +104,6 @@ export class Core {
         await mkdir(dirname(toDiffImage), { recursive: true });
         await copyFile(fromDiffImage, toDiffImage);
         test.pair.diffImage = relative(html_report, toDiffImage);
-
-        console.log({
-          fromReference,
-          toReference,
-          fromTest,
-          toTest,
-          fromDiffImage,
-          toDiffImage,
-        });
       }
     }
 
