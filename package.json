@@ -48,6 +48,7 @@
     "dist"
   ],
   "dependencies": {
+    "import-cwd": "^3.0.0",
     "yargs": "^17.4.1"
   }
 }

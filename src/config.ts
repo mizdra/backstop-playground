@@ -1,6 +1,7 @@
 import { Config, Options } from './parse-argv';
+import importCwd from 'import-cwd';
 
-export const DEFAULT_CONFIG_PATH = 'backstop.json';
+export const DEFAULT_CONFIG_PATH = './backstop.json';
 
 export type NormalizedConfig = Omit<Config, 'paths' | 'report'> & {
   paths: Required<NonNullable<Config['paths']>>;
@@ -16,13 +17,15 @@ export function assertConfig(config: Config): asserts config is NormalizedConfig
   if (config.paths.json_report === undefined) throw new Error('config.paths.json_report is required');
   if (config.report === undefined) throw new Error('config.report is required');
   if (!config.report.includes('browser')) throw new Error('config.report must include "browser"');
-  if (!config.report.includes('CI')) throw new Error('config.report must include "CI"');
+  if (!config.report.includes('json')) throw new Error('config.report must include "json"');
 }
 
 export function readConfig(configObjOrPath: Options['config']): NormalizedConfig {
   console.log(process.cwd());
   const config: Config =
-    typeof configObjOrPath === 'object' ? configObjOrPath : require('./' + configObjOrPath ?? DEFAULT_CONFIG_PATH);
+    typeof configObjOrPath === 'object'
+      ? configObjOrPath
+      : (importCwd('./' + configObjOrPath ?? DEFAULT_CONFIG_PATH) as Config);
   assertConfig(config);
   return config;
 }
