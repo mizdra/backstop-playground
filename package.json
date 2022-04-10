@@ -1,19 +1,17 @@
 {
-  "name": "backstopjs-playground",
+  "name": "eco-friendly-backstopjs-runner",
   "version": "1.0.0",
-  "description": "",
+  "description": "Eco-friendly Backstop.js runner.",
   "main": "index.js",
   "scripts": {
-    "dev": "http-server -p 8080 public",
     "backstop": "script/backstop.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/mizdra/backstopjs-playground.git"
   },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mizdra/backstopjs-playground/issues"
   },
@@ -29,5 +27,23 @@
     "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
-  }
+  },
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "eco-backstop": "bin/eco-backstop.js"
+  },
+  "keywords": [
+    "eslint"
+  ],
+  "files": [
+    "bin",
+    "src",
+    "dist"
+  ]
 }

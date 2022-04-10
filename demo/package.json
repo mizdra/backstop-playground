@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "http-server -p 8080 public",
+    "backstop": "backstop test"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}
