@@ -2,7 +2,7 @@ import backstop, { JSONReport } from 'backstopjs';
 import { copyFile, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { basename, dirname, join, relative } from 'node:path';
 import { uniqueBy } from './array';
-import { NormalizedConfig, readConfig } from './config';
+import { NormalizedConfig, readConfig, TEMP_CONFIG_PATH, writeTempConfig } from './config';
 import { Options } from './parse-argv';
 
 type NormalizedOptions = {
@@ -27,27 +27,38 @@ export class Core {
     return scenarios.map((scenario) => scenario.label);
   }
   async runTest(targetScenarioLabels: string[]): Promise<string[]> {
+    // `docker` オプションが真で、`config` オプションにオブジェクトが渡されたときに、うまく動かない問題がある。
+    // ref: https://github.com/garris/BackstopJS/issues/849
+    // そこでここでは、config を一時的にファイルに書き出している。
+    await writeTempConfig({
+      ...this.options.config,
+      scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
+    });
     await backstop('test', {
       ...this.options,
-      config: {
-        ...this.options.config,
-        scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
-      },
+      config: TEMP_CONFIG_PATH,
     }).catch((error) => {
       // TODO: ハンドリングする
     });
+    await rm(TEMP_CONFIG_PATH);
+
     const report = await this.readJSONReport();
     this.reports.push(report);
     return report.tests.filter((test) => test.status === 'fail').map((test) => test.pair.label);
   }
   async runReference(targetScenarioLabels: string[]): Promise<void> {
+    // `docker` オプションが真で、`config` オプションにオブジェクトが渡されたときに、うまく動かない問題がある。
+    // ref: https://github.com/garris/BackstopJS/issues/849
+    // そこでここでは、config を一時的にファイルに書き出している。
+    await writeTempConfig({
+      ...this.options.config,
+      scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
+    });
     await backstop('reference', {
       ...this.options,
-      config: {
-        ...this.options.config,
-        scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
-      },
+      config: TEMP_CONFIG_PATH,
     });
+    await rm(TEMP_CONFIG_PATH);
   }
   async createBrowserReport(targetScenarioLabels: string[]): Promise<void> {
     // Collect scenario results from all reports.

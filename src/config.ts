@@ -1,7 +1,10 @@
 import { Config, Options } from './parse-argv';
 import importCwd from 'import-cwd';
+import { writeFile } from 'node:fs/promises';
 
 export const DEFAULT_CONFIG_PATH = './backstop.json';
+
+export const TEMP_CONFIG_PATH = 'backstop.json';
 
 export type NormalizedConfig = Omit<Config, 'paths' | 'report'> & {
   paths: Required<NonNullable<Config['paths']>>;
@@ -28,4 +31,8 @@ export function readConfig(configObjOrPath: Options['config']): NormalizedConfig
       : (importCwd('./' + configObjOrPath ?? DEFAULT_CONFIG_PATH) as Config);
   assertConfig(config);
   return config;
+}
+
+export async function writeTempConfig(config: NormalizedConfig): Promise<void> {
+  await writeFile(TEMP_CONFIG_PATH, JSON.stringify(config, null, 2));
 }
