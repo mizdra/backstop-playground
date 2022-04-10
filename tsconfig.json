@@ -1,14 +1,41 @@
 {
   "extends": "ts-node/node16/tsconfig.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2019",
+    "lib": ["ES2019"],
+
+    /* Module Options */
+    "module": "CommonJS",
+    "esModuleInterop": true, // CommonJS モジュールを `import _ from 'commonjs'` で import できるように
+    "moduleResolution": "node", // `node` にしないと `resolveJsonModule` が使えない
+    "forceConsistentCasingInFileNames": true, // 大文字小文字を区別しない環境 (win) でも unix と同じように区別する
+
+    /* Output Options */
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* Additional Features */
+    // "jsx": "react",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+
+    /* Lint Options */
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+
+    /* Debug Options */
+    "locale": "ja"
+  },
   "ts-node": {
     "transpileOnly": true,
     "files": true,
     "compilerOptions": {
       "module": "CommonJS"
     }
-  },
-  "include": ["typings/**/*", "src/**/*"],
-  "compilerOptions": {
-    // typescript options here
   }
 }

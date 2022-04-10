@@ -4,7 +4,8 @@
   "description": "Eco-friendly Backstop.js runner.",
   "main": "index.js",
   "scripts": {
-    "backstop": "script/backstop.ts"
+    "start": "bin/eco-backstop.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
