@@ -1,5 +1,5 @@
 {
-  "name": "eco-friendly-backstopjs-runner",
+  "name": "@mizdra/eco-friendly-backstopjs-runner",
   "version": "1.0.0",
   "description": "Eco-friendly Backstop.js runner.",
   "main": "index.js",
