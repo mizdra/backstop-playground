@@ -24,8 +24,8 @@ $ npm run backstop
 $ # Wait for passing CI...
 $ git switch main
 $ git pull
+$ rm -rf dist && npm run build
 $ yarn version
-$ npm run build
 $ npm publish
 $ git push --follow-tags
 ```
