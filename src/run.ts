@@ -1,5 +1,3 @@
-#!/usr/bin/env -S ts-node
-
 import { Core } from './core';
 import { parseArgv } from './parse-argv';
 
