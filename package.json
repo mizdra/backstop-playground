@@ -2,22 +2,19 @@
   "name": "@mizdra/eco-friendly-backstopjs-runner",
   "version": "1.0.0",
   "description": "Eco-friendly Backstop.js runner.",
-  "main": "index.js",
+  "author": "mizdra <pp.mizdra@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/mizdra/backstopjs-playground.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mizdra/backstopjs-playground/issues"
-  },
-  "homepage": "https://github.com/mizdra/backstopjs-playground#readme",
   "prettier": "@mizdra/prettier-config-mizdra",
+  "dependencies": {
+    "import-cwd": "^3.0.0",
+    "yargs": "^17.4.1"
+  },
   "devDependencies": {
     "@mizdra/prettier-config-mizdra": "^1.0.0",
     "@tsconfig/node16": "^1.0.2",
@@ -29,6 +26,9 @@
     "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
+  },
+  "peerDependencies": {
+    "backstopjs": "^6.0.0"
   },
   "engines": {
     "node": "^14.13.1 || >=16.0.0"
@@ -48,8 +48,12 @@
     "src",
     "dist"
   ],
-  "dependencies": {
-    "import-cwd": "^3.0.0",
-    "yargs": "^17.4.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mizdra/backstopjs-playground.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mizdra/backstopjs-playground/issues"
+  },
+  "homepage": "https://github.com/mizdra/backstopjs-playground#readme"
 }
