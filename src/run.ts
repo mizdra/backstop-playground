@@ -1,9 +1,14 @@
 #!/usr/bin/env -S ts-node
 
 import { Core } from './core';
-import { Options } from './parse-argv';
+import { parseArgv } from './parse-argv';
 
-export async function run(options: Options) {
+export type RunnerOptions = {
+  argv: string[];
+};
+
+export async function run({ argv }: RunnerOptions) {
+  const options = await parseArgv(argv);
   const core = new Core(options);
   const allScenarioLabels = core.getAllScenarioLabels();
 

@@ -20,8 +20,9 @@ export function assertConfig(config: Config): asserts config is NormalizedConfig
 }
 
 export function readConfig(configObjOrPath: Options['config']): NormalizedConfig {
+  console.log(process.cwd());
   const config: Config =
-    typeof configObjOrPath === 'object' ? configObjOrPath : require(configObjOrPath ?? DEFAULT_CONFIG_PATH);
+    typeof configObjOrPath === 'object' ? configObjOrPath : require('./' + configObjOrPath ?? DEFAULT_CONFIG_PATH);
   assertConfig(config);
   return config;
 }

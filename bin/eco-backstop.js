@@ -1,6 +1,6 @@
-#!/usr/bin/env -S node --unhandled-rejections=strict
+#!/usr/bin/env -S node --unhandled-rejections=strict --enable-source-maps
 
-import { run } from '../dist/index.js';
+const { run } = require('../dist/index.js');
 
 run({
   argv: process.argv,
