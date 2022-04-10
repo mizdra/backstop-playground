@@ -11,6 +11,7 @@
     "dev": "tsc -w"
   },
   "prettier": "@mizdra/prettier-config-mizdra",
+  "renovate": "github>mizdra/renovate-config-mizdra",
   "dependencies": {
     "import-cwd": "^3.0.0",
     "yargs": "^17.4.1"
