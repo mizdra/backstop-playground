@@ -1,6 +1,6 @@
 #!/usr/bin/env -S ts-node
 
-import backstop, { JSONReport, JSONReportTest, Options } from 'backstopjs';
+import backstop, { JSONReport, Options } from 'backstopjs';
 import { readFile } from 'fs/promises';
 import { config } from './backstopConfig';
 
