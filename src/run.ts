@@ -7,6 +7,12 @@ export type RunnerOptions = {
 
 export async function run({ argv }: RunnerOptions) {
   const options = await parseArgv(argv);
+
+  if (process.argv.includes('--config')) {
+    process.argv.splice(process.argv.indexOf('--config'), 2);
+  }
+
+  console.log(process.argv);
   const core = new Core(options);
   const allScenarioLabels = core.getAllScenarioLabels();
 
