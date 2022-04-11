@@ -8,11 +8,21 @@ export type RunnerOptions = {
 export async function run({ argv }: RunnerOptions) {
   const options = await parseArgv(argv);
 
-  if (process.argv.includes('--config')) {
+  // - `--docker` と `--config xxx.json` オプションが同時に渡される
+  // - `dockerCommandTemplate` に `{args}` が含まれる
+  //
+  // 以上の 2 つの条件を満たす時、以下のようなコマンドで backstop が実行される
+  // ```
+  // docker run --rm -it --mount type=bind,source="/Users/mizdra/src/github.com/mizdra/backstopjs-playground/demo",target=/src \
+  //   backstopjs/backstopjs:6.0.4 reference "--config=backstop.json" "--moby=true" "--config=xxx.json"
+  // ```
+  //
+  // 見ての通り、`--config` オプションが複数渡されてしまっている (前者だけあればよいはず)。これにより、backstop が期待通り動作しない。
+  // そこでここでは process.argv から `--config=xxx.json` を削除し、余計なオプションがつかないようにしている。
+  if (options.docker && process.argv.includes('--config')) {
     process.argv.splice(process.argv.indexOf('--config'), 2);
   }
 
-  console.log(process.argv);
   const core = new Core(options);
   const allScenarioLabels = core.getAllScenarioLabels();
 

@@ -52,7 +52,7 @@ const config = {
   // dockerCommandTemplate:
   //   'docker run --rm -it --mount type=bind,source="{cwd}",target=/src --mount type=bind,source="{cwd}/../node_modules",target=/usr/local/lib/node_modules backstopjs/backstopjs:{version} {backstopCommand}',
   dockerCommandTemplate:
-    'docker run --rm -it --mount type=bind,source="{cwd}",target=/src --mount type=bind,source="{cwd}/../node_modules",target=/usr/local/lib/node_modules backstopjs/backstopjs:{version} {backstopCommand}  {args}',
+    'docker run --rm -it --mount type=bind,source="{cwd}",target=/src backstopjs/backstopjs:{version} {backstopCommand} {args}',
 };
 
 module.exports = config;
