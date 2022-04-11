@@ -27,38 +27,28 @@ export class Core {
     return scenarios.map((scenario) => scenario.label);
   }
   async runTest(targetScenarioLabels: string[]): Promise<string[]> {
-    // `docker` オプションが真で、`config` オプションにオブジェクトが渡されたときに、うまく動かない問題がある。
-    // ref: https://github.com/garris/BackstopJS/issues/849
-    // そこでここでは、config を一時的にファイルに書き出している。
-    await writeTempConfig({
-      ...this.options.config,
-      scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
-    });
     await backstop('test', {
       ...this.options,
-      config: TEMP_CONFIG_PATH,
+      config: {
+        ...this.options.config,
+        scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
+      },
     }).catch((error) => {
       // TODO: ハンドリングする
     });
-    await rm(TEMP_CONFIG_PATH);
 
     const report = await this.readJSONReport();
     this.reports.push(report);
     return report.tests.filter((test) => test.status === 'fail').map((test) => test.pair.label);
   }
   async runReference(targetScenarioLabels: string[]): Promise<void> {
-    // `docker` オプションが真で、`config` オプションにオブジェクトが渡されたときに、うまく動かない問題がある。
-    // ref: https://github.com/garris/BackstopJS/issues/849
-    // そこでここでは、config を一時的にファイルに書き出している。
-    await writeTempConfig({
-      ...this.options.config,
-      scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
-    });
     await backstop('reference', {
       ...this.options,
-      config: TEMP_CONFIG_PATH,
+      config: {
+        ...this.options.config,
+        scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
+      },
     });
-    await rm(TEMP_CONFIG_PATH);
   }
   async createBrowserReport(targetScenarioLabels: string[]): Promise<void> {
     // Collect scenario results from all reports.
