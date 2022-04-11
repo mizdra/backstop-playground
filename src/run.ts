@@ -34,7 +34,7 @@ export async function run({ argv }: RunnerOptions) {
     failedScenarioLabels2 = await core.runTest(failedScenarioLabels1);
   }
 
-  await core.createBrowserReport([...failedScenarioLabels1, ...failedScenarioLabels2]);
+  await core.createBrowserReport(allScenarioLabels);
 
   if (failedScenarioLabels2.length > 0) {
     console.error(`Failed Scenarios: ${failedScenarioLabels2.join(', ')}`);
