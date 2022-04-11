@@ -22,6 +22,10 @@ export async function run({ argv }: RunnerOptions) {
   if (options.docker && process.argv.includes('--config')) {
     process.argv.splice(process.argv.indexOf('--config'), 2);
   }
+  // `--filter` にも似たような問題があるので削除
+  if (options.docker && process.argv.includes('--filter')) {
+    process.argv.splice(process.argv.indexOf('--filter'), 2);
+  }
 
   const core = new Core(options);
   const allScenarioLabels = core.getAllScenarioLabels();
