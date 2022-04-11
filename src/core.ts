@@ -1,6 +1,6 @@
 import backstop, { JSONReport } from 'backstopjs';
-import { readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, writeFile } from 'fs/promises';
+import { join } from 'path';
 import { uniqueBy } from './array';
 import { NormalizedConfig, readConfig } from './config';
 import { Options } from './parse-argv';

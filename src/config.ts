@@ -1,6 +1,6 @@
 import { Config, Options } from './parse-argv';
 import importCwd from 'import-cwd';
-import { writeFile } from 'node:fs/promises';
+import { writeFile } from 'fs/promises';
 
 export const DEFAULT_CONFIG_PATH = './backstop.json';
 
