@@ -48,6 +48,8 @@ export class Core {
         ...this.options.config,
         scenarios: this.options.config.scenarios.filter((scenario) => targetScenarioLabels.includes(scenario.label)),
       },
+    }).catch((error) => {
+      // TODO: ハンドリングする
     });
   }
   async createBrowserReport(targetScenarioLabels: string[]): Promise<void> {
